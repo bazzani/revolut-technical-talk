@@ -6,11 +6,20 @@ public class BalanceTransferService {
     void transfer(Account from, Account to, BigDecimal amount) {
         // sort the accounts by id to ensure the locking happens in order
 
-        synchronized (from) {
-            synchronized (to) {
-                BigDecimal fromBalance = from.withdrawal(amount);
-                BigDecimal toBalance = to.lodge(amount);
+        var orderedAccounts = getOrderedAccounts(from, to);
+        synchronized (orderedAccounts[0]) {
+            synchronized (orderedAccounts[1]) {
+                from.withdrawal(amount);
+                to.lodge(amount);
             }
+        }
+    }
+
+    Account[] getOrderedAccounts(Account from, Account to) {
+        if (from.getId().compareTo(to.getId()) < 0) {
+            return new Account[]{from, to};
+        } else {
+            return new Account[]{to, from};
         }
     }
 }

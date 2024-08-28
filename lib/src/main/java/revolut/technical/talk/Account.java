@@ -3,7 +3,17 @@ package revolut.technical.talk;
 import java.math.BigDecimal;
 
 public class Account {
-    private BigDecimal balance = BigDecimal.ZERO;
+    private final String id;
+    private BigDecimal balance;
+
+    public Account(String id, BigDecimal balance) {
+        this.id = id;
+        this.balance = balance;
+    }
+
+    public String getId() {
+        return id;
+    }
 
     BigDecimal withdrawal(BigDecimal withdrawalAmount) {
         if (withdrawalAmount.compareTo(BigDecimal.ZERO) < 1) {

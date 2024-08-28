@@ -11,7 +11,7 @@ class AccountTest {
     @Test
     void should() {
         // given
-        Account account = new Account();
+        Account account = new Account("one", BigDecimal.ONE);
 
         // when
         var accountBalanceException = assertThrows(AccountBalanceException.class,
